@@ -1,5 +1,5 @@
 /* Banana static PWA — cache shell, never invent a BananaPatterns API */
-const CACHE = "banana-static-v2";
+const CACHE = "banana-static-v3";
 const PRECACHE = [
   "./",
   "./index.html",

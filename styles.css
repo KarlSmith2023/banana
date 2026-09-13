@@ -644,8 +644,8 @@ h1.page-title {
 .money {
   font-family: var(--mono);
 }
-.money .inr { display: block; line-height: 1.25; }
-.money .gbp {
+.money .gbp { display: block; line-height: 1.25; font-weight: 600; }
+.money .inr {
   display: block;
   line-height: 1.25;
   font-size: 11px;

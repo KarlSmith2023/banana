@@ -11,7 +11,7 @@
     { href: "scanner", label: "Markets", short: "NSE", ico: "▣" },
     { href: "ticket", label: "Trade", short: "Trade", ico: "⇄" },
     { href: "api", label: "API", short: "API", ico: "⌁" },
-    { href: "scorecard", label: "Brief", short: "Brief", ico: "☰" },
+    { href: "scorecard", label: "P&L", short: "P&L", ico: "☰" },
     { href: "playbook", label: "More", short: "More", ico: "▤" },
     { href: "journal", label: "Journal", short: "Journal", ico: "✎" },
   ];
@@ -22,7 +22,7 @@
     { href: "positions", label: "Positions" },
     { href: "charts", label: "Charts" },
     { href: "api", label: "API" },
-    { href: "scorecard", label: "Brief" },
+    { href: "scorecard", label: "P&L" },
     { href: "journal", label: "Journal" },
     { href: "playbook", label: "Playbook" },
   ];
@@ -81,7 +81,7 @@
     return (neg ? "-" : "") + "\u00A3" + fixed;
   }
   function dual(n, fx, digits) {
-    return inr(n, digits) + " \u00B7 " + gbp(n, fx, digits);
+    return gbp(n, fx, digits) + " \u00B7 " + inr(n, digits);
   }
   function pct(n, digits) {
     if (digits == null) digits = 1;
@@ -89,7 +89,7 @@
   }
   function moneyHtml(n, fx, colored) {
     var cls = colored ? (n >= 0 ? "pos" : "neg") : "";
-    return '<span class="money ' + cls + '"><span class="inr">' + esc(inr(n)) + '</span><span class="gbp">' + esc(gbp(n, fx)) + "</span></span>";
+    return '<span class="money ' + cls + '"><span class="gbp">' + esc(gbp(n, fx)) + '</span><span class="inr">' + esc(inr(n)) + "</span></span>";
   }
   function esc(s) {
     return String(s == null ? "" : s)
@@ -1137,7 +1137,7 @@
       posHtml = '<div class="desk-scroll"><table class="desk-table min-w-420"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg</th><th>Last</th><th>UPL</th></tr></thead><tbody>' +
         positions.map(function (p) {
           var upl = (p.last - p.avgPrice) * p.qty;
-          return "<tr><td>" + esc(p.symbol) + "</td><td>" + p.qty + "</td><td>" + p.avgPrice.toFixed(2) + "</td><td>" + p.last.toFixed(2) + '</td><td class="' + (upl >= 0 ? "pos" : "neg") + '">' + upl.toFixed(0) + "</td></tr>";
+          return "<tr><td>" + esc(p.symbol) + "</td><td>" + p.qty + "</td><td>" + p.avgPrice.toFixed(2) + "</td><td>" + p.last.toFixed(2) + '</td><td class="' + (upl >= 0 ? "pos" : "neg") + '">' + esc(dual(upl, fx)) + "</td></tr>";
         }).join("") + "</tbody></table></div>";
     }
 
@@ -1415,6 +1415,15 @@
     var fx = getSettings().fxGbpInr;
     var sessions = book.sessions.slice().sort(function (a, b) { return a.sessionDate < b.sessionDate ? 1 : -1; });
     var left = Math.max(0, scorecard.sessionsRequired - scorecard.sessionsLogged);
+    var account = getAccount();
+    var moneyKpis = [
+      { l: "Equity", v: account.equity, colored: false },
+      { l: "Day P&L", v: account.dayPnl, colored: true },
+      { l: "Total P&L", v: account.totalPnl, colored: true },
+      { l: "Cash", v: account.cash, colored: false },
+    ].map(function (c) {
+      return '<div class="desk-panel kpi"><div class="kpi-label">' + esc(c.l) + ' \u00B7 GBP</div><div class="kpi-val">' + moneyHtml(c.v, fx, !!c.colored) + "</div></div>";
+    }).join("");
     var kpis = [
       { l: "Sessions", v: String(scorecard.sessionsLogged) },
       { l: "Cum R", v: scorecard.cumR.toFixed(2) },
@@ -1425,22 +1434,29 @@
     ].map(function (c) {
       return '<div class="desk-panel kpi"><div class="kpi-label">' + esc(c.l) + '</div><div class="kpi-val mono bright">' + esc(c.v) + "</div></div>";
     }).join("");
+    var closed = book.closedTrades.slice().sort(function (a, b) { return a.closedAt < b.closedAt ? 1 : -1; }).slice(0, 40);
+    var closedRows = closed.map(function (tr) {
+      return "<tr><td>" + esc(tr.symbol) + "</td><td>" + tr.qty + "</td><td>" + Number(tr.entryAvg).toFixed(2) + "</td><td>" + Number(tr.exitAvg).toFixed(2) + '</td><td class="' + (tr.pnl >= 0 ? "pos" : "neg") + '">' + esc(dual(tr.pnl, fx)) + "</td><td>" + (tr.rMultiple != null ? Number(tr.rMultiple).toFixed(2) : "\u2014") + '</td><td class="muted" style="font-size:12px">' + esc(tr.sessionDate || "") + "</td></tr>";
+    }).join("");
+    if (!closed.length) closedRows = '<tr><td colspan="7" class="muted">No closed trades yet</td></tr>';
     var sessRows = sessions.map(function (s) {
       return "<tr><td>" + esc(s.sessionDate) + "</td><td>" + (s.isSim ? "SIM" : "\u2014") + "</td><td>" + s.trades + '</td><td class="' + (s.dayPnl >= 0 ? "pos" : "neg") + '">' + esc(dual(s.dayPnl, fx)) + '</td><td class="muted truncate" style="font-size:12px">' + esc(s.notes) + "</td></tr>";
     }).join("");
     if (!sessions.length) sessRows = '<tr><td colspan="5" class="muted">No sessions logged yet \u2014 use \u201cLog session\u201d after a paper day</td></tr>';
     return (
-      '<div class="space-y"><div class="flex-end"><div><h1 class="page-title">Scorecard</h1><p class="page-sub">Sessions \u00B7 expectancy \u00B7 drawdown \u00B7 CSV export</p></div>' +
+      '<div class="space-y"><div class="flex-end"><div><h1 class="page-title">P&amp;L / Scorecard</h1><p class="page-sub">GBP primary \u00B7 INR beside \u00B7 sessions \u00B7 expectancy \u00B7 CSV</p></div>' +
       '<button type="button" class="desk-btn-primary" style="font-size:12px" id="sc-csv">Export CSV</button></div>' +
       '<div class="desk-panel pad tone-amber"><div class="amber mono" style="font-size:0.875rem">' + esc(scorecard.liveLockedReason) + '</div>' +
       '<div class="muted" style="font-size:12px;margin-top:4px">' + scorecard.sessionsLogged + "/" + scorecard.sessionsRequired + " sessions" + (!scorecard.liveUnlocked && left > 0 ? " \u00B7 " + left + " left" : "") + " \u00B7 Live is a stub: connect a broker after paper confirmation</div></div>" +
-      '<div class="kpis">' + kpis + "</div>" +
+      '<div class="kpis">' + moneyKpis + kpis + "</div>" +
       '<div class="desk-panel pad"><h2 style="margin-bottom:8px">Equity curve</h2>' + equitySpark(book.equityCurve, 100) + "</div>" +
       '<div class="desk-panel pad" style="font-size:0.875rem"><h2>Reference bake-off</h2><p class="muted" style="font-size:12px;margin:4px 0 8px">' + esc(scorecard.reference.label) + '</p><div class="mono">' + scorecard.reference.cagr + "% CAGR \u00B7 " + scorecard.reference.maxDd + "% DD \u00B7 " + scorecard.reference.winRate + "% WR</div></div>" +
       '<div class="desk-panel pad" style="display:flex;flex-direction:column;gap:12px"><h2>Session journal</h2>' +
       '<textarea class="desk-input" id="sc-notes" placeholder="Notes for today\u2019s session\u2026">' + esc(scoreNotes) + "</textarea>" +
       '<button type="button" class="desk-btn-primary" id="sc-log">Log session</button>' +
       (scoreMsg ? '<div class="msg ok">' + esc(scoreMsg) + "</div>" : "") + "</div>" +
+      '<div class="desk-panel" style="overflow:hidden"><div class="panel-head"><h2>Closed trades P&amp;L</h2><span class="muted" style="font-size:12px">\u00A3 \u00B7 \u20B9</span></div>' +
+      '<div class="desk-scroll"><table class="desk-table min-w-720"><thead><tr><th>Symbol</th><th>Qty</th><th>Entry</th><th>Exit</th><th>P&amp;L</th><th>R</th><th>Session</th></tr></thead><tbody>' + closedRows + '</tbody></table></div></div>' +
       '<div class="desk-panel" style="overflow:hidden"><div class="panel-head"><h2>Logged sessions</h2></div>' +
       '<div class="desk-scroll"><table class="desk-table min-w-560"><thead><tr><th>Date</th><th>SIM</th><th>Trades</th><th>Day P&amp;L</th><th>Notes</th></tr></thead><tbody>' + sessRows + "</tbody></table></div></div></div>"
     );
