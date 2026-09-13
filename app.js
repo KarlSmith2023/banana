@@ -1,4 +1,4 @@
-/* Desk static PWA — paper blotter (no Node, no BananaPatterns API) */
+/* Banana static PWA — paper blotter (no Node, no BananaPatterns API) */
 (function () {
   "use strict";
 
@@ -8,7 +8,7 @@
   var DEFAULT_CASH = 103408;
 
   var LINKS = [
-    { href: "scanner", label: "Markets", short: "Markets", ico: "▣" },
+    { href: "scanner", label: "Markets", short: "NSE", ico: "▣" },
     { href: "ticket", label: "Trade", short: "Trade", ico: "⇄" },
     { href: "api", label: "API", short: "API", ico: "⌁" },
     { href: "scorecard", label: "Brief", short: "Brief", ico: "☰" },
@@ -245,7 +245,7 @@
 
   function persist() {
     try { localStorage.setItem(LS_KEY, JSON.stringify(book)); }
-    catch (e) { console.warn("Desk persist failed", e); }
+    catch (e) { console.warn("Banana persist failed", e); }
   }
   function persistSoon() {
     if (saveTimer) clearTimeout(saveTimer);
@@ -877,8 +877,8 @@
       var b = bars[c];
       var cx = padL + slot * c + slot / 2;
       var up = b.close >= b.open;
-      ctx.strokeStyle = up ? "#2de0a5" : "#e8544a";
-      ctx.fillStyle = up ? "#2de0a5" : "#e8544a";
+      ctx.strokeStyle = up ? "#F5C518" : "#e8544a";
+      ctx.fillStyle = up ? "#F5C518" : "#e8544a";
       ctx.beginPath();
       ctx.moveTo(cx, y(b.high));
       ctx.lineTo(cx, y(b.low));
@@ -913,7 +913,7 @@
       return (i === 0 ? "M" : "L") + x.toFixed(1) + "," + yv.toFixed(1);
     }).join(" ");
     var up = vals[vals.length - 1] >= vals[0];
-    return '<svg viewBox="0 0 ' + w + " " + h + '" style="width:100%;height:6rem" preserveAspectRatio="none"><path d="' + d + '" fill="none" stroke="' + (up ? "#2de0a5" : "#e8544a") + '" stroke-width="2"/></svg>';
+    return '<svg viewBox="0 0 ' + w + " " + h + '" style="width:100%;height:6rem" preserveAspectRatio="none"><path d="' + d + '" fill="none" stroke="' + (up ? "#F5C518" : "#e8544a") + '" stroke-width="2"/></svg>';
   }
 
   var moreOpen = false;
@@ -1143,7 +1143,7 @@
 
     return (
       '<div class="space-y">' +
-      '<div class="flex-end"><div><h1 class="page-title">Overview</h1><p class="page-sub">NSE breakout / VCP paper desk \u00B7 ' + esc(bits.sess.label) + " \u00B7 seed as-of 11 Sep 2026</p></div>" +
+      '<div class="flex-end"><div><h1 class="page-title">Overview <span class="host-badge"><span class="host-name">banana</span><span class="host-credit">· complements BananaPatterns.com</span></span></h1><p class="page-sub">NSE breakout / VCP paper desk \u00B7 ' + esc(bits.sess.label) + " \u00B7 seed as-of 11 Sep 2026</p></div>" +
       '<div class="mono" style="text-align:right;font-size:0.875rem"><div class="amber">' + esc(score.liveUnlocked ? "Live unlocked (broker stub)" : "Live locked \u00B7 " + bits.left + " sessions left") + "</div>" +
       '<div class="muted" style="font-size:12px;margin-top:2px">' + score.sessionsLogged + "/" + score.sessionsRequired + " sessions \u00B7 checklist " + (checklistOk ? "\u2713" : "\u25CB") + "</div></div></div>" +
       '<div class="kpis">' + kpis + "</div>" +
@@ -1156,7 +1156,7 @@
       '<div style="display:flex;justify-content:space-between"><span class="muted">Max DD</span><span>' + score.maxDdPct.toFixed(2) + "%</span></div></div>" +
       '<p class="muted" style="font-size:11px;padding-top:8px;border-top:1px solid var(--border);margin:8px 0 0">Ref (not a promise): Rule C bake-off ' + score.reference.cagr + "% CAGR / " + score.reference.maxDd + "% DD / " + score.reference.winRate + "% WR</p>" +
       '<a href="#/scorecard" class="desk-btn-primary" style="margin-top:8px;font-size:12px">Open scorecard</a></div></div>' +
-      '<div class="grid-2"><div class="desk-panel" style="overflow:hidden"><div class="panel-head"><h2>Scanner (seed)</h2><a href="#/scanner" style="font-size:12px">All setups \u2192</a></div>' +
+      '<div class="grid-2"><div class="desk-panel" style="overflow:hidden"><div class="panel-head"><h2>Markets · NSE (seed)</h2><a href="#/scanner" style="font-size:12px">All setups \u2192</a></div>' +
       '<div class="desk-scroll"><table class="desk-table min-w-480"><thead><tr><th>Symbol</th><th>Last</th><th>Chg</th><th>RS</th><th>Tags</th></tr></thead><tbody>' + setupRows + "</tbody></table></div></div>" +
       '<div class="desk-panel" style="overflow:hidden"><div class="panel-head"><h2>Positions (' + positions.length + ") \u00B7 Working (" + working.length + ')</h2><a href="#/positions" style="font-size:12px">Blotter \u2192</a></div>' + posHtml + "</div></div></div>"
     );
@@ -1169,8 +1169,8 @@
     var fresh = setups.filter(function (s) { return s.tags.indexOf("Fresh") >= 0; });
     var dnc = setups.filter(function (s) { return s.tags.indexOf("DoNotChase") >= 0; });
     return (
-      '<div class="space-y"><div><h1 class="page-title">Scanner</h1>' +
-      '<p class="page-sub">Seeded as-of Fri 11 Sep 2026 close \u00B7 Universe: ' + esc(settings.universe) + " \u00B7 Prefer RS \u2265 " + settings.preferRsMin + " \u00B7 No chase &gt; " + settings.maxChasePct + "%</p>" +
+      '<div class="space-y"><div><h1 class="page-title">Markets <span class="host-badge"><span class="host-name">banana</span><span class="host-credit">· complements BananaPatterns.com</span></span></h1>' +
+      '<p class="page-sub">NSE / India setups \u00B7 Seeded as-of Fri 11 Sep 2026 close \u00B7 Universe: ' + esc(settings.universe) + " \u00B7 Prefer RS \u2265 " + settings.preferRsMin + " \u00B7 No chase &gt; " + settings.maxChasePct + "%</p>" +
       '<p class="page-hint">BananaPatterns has no official API. Ingest your own rows below \u2014 paste JSON. Not financial advice.</p></div>' +
       scannerSection("Forming watch", forming, settings) +
       scannerSection("Fresh proposed", fresh, settings, "tone-green") +
@@ -1222,6 +1222,7 @@
 
     return (
       '<div class="space-y">' +
+      '<div class="flex-end" style="margin-bottom:8px"><h1 class="page-title" style="margin:0">Trade <span class="host-badge"><span class="host-name">banana</span><span class="host-credit">· complements BananaPatterns.com</span></span></h1></div>' +
       '<div class="card pad" style="margin-bottom:0">' +
       '<div class="tr-head"><div>' +
       '<div class="tr-pair"><span id="tr-pair-name">' + esc(ticketState.symbol) + '</span><span class="q">·NSE</span></div>' +
@@ -1391,7 +1392,7 @@
       '<option value="EMA50"' + (s.trail === "EMA50" ? " selected" : "") + ">Daily close below 50-EMA</option>" +
       '<option value="SMA50"' + (s.trail === "SMA50" ? " selected" : "") + ">Daily close below 50-SMA</option></select></label>" +
       '<label class="check"><input type="checkbox" id="pb-avg"' + (s.noAveragingDown ? " checked" : "") + " /> No averaging down</label></div>" +
-      '<div class="desk-panel pad" style="display:flex;flex-direction:column;gap:12px"><h2>Desk / FX / session</h2>' +
+      '<div class="desk-panel pad" style="display:flex;flex-direction:column;gap:12px"><h2>Banana / FX / session</h2>' +
       numField("pb-fx", "GBPINR FX rate", s.fxGbpInr, "0.01") + numField("pb-slip", "Slippage bps (market)", s.slippageBps) +
       '<label class="check"><input type="checkbox" id="pb-queue"' + (s.queueMarketOutsideHours ? " checked" : "") + " /> Queue market orders outside NSE hours</label>" +
       '<label class="check"><input type="checkbox" id="pb-sim"' + (s.simSession ? " checked" : "") + " /> SIM session (weekend / demo labelled SIM)</label></div>" +
@@ -1448,7 +1449,7 @@
   function viewApi() {
     return (
       '<div class="space-y"><div><h1 class="page-title">API · Setups ingest</h1>' +
-      '<p class="page-sub">BananaPatterns has <b>no official API</b>. Paste your own setups JSON — Desk never invents vendor endpoints.</p></div>' +
+      '<p class="page-sub">BananaPatterns has <b>no official API</b>. Paste your own setups JSON — Banana never invents vendor endpoints.</p></div>' +
       '<div class="banner">Secrets never leave this device. This static PWA has no broker keys — paper blotter only. Live stays locked for ' +
       liveBits().left + ' sessions.</div>' +
       '<div class="card pad">' +
@@ -1459,7 +1460,7 @@
       (ingestMsg ? '<div class="msg ' + (ingestMsg.indexOf("Invalid") === 0 ? "err" : "ok") + '" style="margin-top:8px">' + esc(ingestMsg) + "</div>" : "") +
       '</div>' +
       '<div class="card pad"><div class="sec" style="margin-top:0">Relative paths · GitHub Pages</div>' +
-      '<p class="sub" style="margin:0">Host under <code>/Lona-Site/desk/</code> or open <code>index.html</code>. All assets use <code>./</code> relative URLs. PWA install needs HTTPS or localhost — see README Add to Home Screen.</p></div></div>'
+      '<p class="sub" style="margin:0">Host as <code>KarlSmith2023/banana</code> (GitHub Pages) or open <code>index.html</code>. All assets use <code>./</code> relative URLs. PWA install needs HTTPS or localhost — see README Add to Home Screen.</p></div></div>'
     );
   }
 
@@ -1488,7 +1489,7 @@
   function exportCsv() {
     var score = getScorecard();
     var fx = getSettings().fxGbpInr;
-    var lines = ["# Desk scorecard", "sessions," + score.sessionsLogged, "cumR," + score.cumR, "winRate," + score.winRate, "expectancy," + score.expectancy, "maxDdPct," + score.maxDdPct, "trades," + score.totalTrades, "wins," + score.wins, "losses," + score.losses, "", "session_date,is_sim,trades,day_pnl_inr,day_pnl_gbp,notes"];
+    var lines = ["# Banana scorecard", "sessions," + score.sessionsLogged, "cumR," + score.cumR, "winRate," + score.winRate, "expectancy," + score.expectancy, "maxDdPct," + score.maxDdPct, "trades," + score.totalTrades, "wins," + score.wins, "losses," + score.losses, "", "session_date,is_sim,trades,day_pnl_inr,day_pnl_gbp,notes"];
     book.sessions.forEach(function (s) {
       lines.push([s.sessionDate, s.isSim ? 1 : 0, s.trades, s.dayPnl, (s.dayPnl / fx).toFixed(2), '"' + String(s.notes || "").replace(/"/g, '""') + '"'].join(","));
     });
@@ -1794,7 +1795,7 @@
     if (location.protocol === "file:") return;
     var register = function () {
       navigator.serviceWorker.register("./sw.js").catch(function (err) {
-        console.warn("Desk SW registration failed", err);
+        console.warn("Banana SW registration failed", err);
       });
     };
     if (document.readyState === "complete") register();

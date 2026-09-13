@@ -1,5 +1,5 @@
-/* Desk static PWA — cache shell, never invent a BananaPatterns API */
-const CACHE = "desk-static-v1";
+/* Banana static PWA — cache shell, never invent a BananaPatterns API */
+const CACHE = "banana-static-v2";
 const PRECACHE = [
   "./",
   "./index.html",

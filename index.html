@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05080b" />
-  <meta name="description" content="Karl Smith's private NSE paper-trading desk (VCP / Blue sky). Not financial advice." />
-  <meta name="application-name" content="DESK" />
+  <meta name="description" content="Banana paper desk for BananaPatterns — Karl Smith's private NSE paper-trading blotter (VCP / Blue sky). Not financial advice." />
+  <meta name="application-name" content="Banana" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="DESK" />
-  <title>DESK :: trade</title>
+  <meta name="apple-mobile-web-app-title" content="Banana" />
+  <title>BANANA :: trade</title>
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
@@ -22,7 +22,7 @@
     <header class="top safe-top">
       <div class="top-row">
         <div class="brand-block">
-          <div class="logo"><i>DESK</i><b>://trade</b></div>
+          <div class="logo"><span class="logo-chip" title="Banana" aria-hidden="true">🍌</span><i>BANANA</i><b>://trade</b></div>
           <div class="mode-pills" id="mode-pills">
             <span class="mode-pill paper on" id="pill-paper">PAPER</span>
             <span class="mode-pill live locked" id="pill-live" title="Live hard-locked">LIVE 🔒</span>
@@ -36,22 +36,22 @@
         <div class="stat"><div class="k">Actionable</div><div class="v" id="stat-actionable">—</div></div>
         <div class="stat"><div class="k">Intent</div><div class="v" id="stat-intent">—</div></div>
       </div>
-      <nav class="desktop-nav" id="desktop-nav" aria-label="Desk"></nav>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="Banana"></nav>
       <div class="disclaimer-row">
-        Complements BananaPatterns playbook research · Not financial advice · No official BananaPatterns API
+        Complements BananaPatterns · Not financial advice · No official BananaPatterns API
       </div>
     </header>
 
     <div class="install-banner" id="install-banner">
-      <span>Add Desk to Home Screen for a standalone paper blotter.</span>
+      <span>Add Banana to Home Screen for a standalone paper blotter.</span>
       <button type="button" class="btn primary sm" id="install-btn">Install</button>
     </div>
 
     <main class="view panel" id="view"></main>
 
     <footer class="desk-foot">
-      Desk paper trading only · Not financial advice · Complements research from bananapatterns.com
-      (no official API)
+      Banana paper trading only · Not financial advice · Complements BananaPatterns
+      (text credit only · no official API)
     </footer>
 
     <nav class="bottom safe-bottom" id="bottom-tabs" aria-label="Primary"></nav>

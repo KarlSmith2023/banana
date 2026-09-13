@@ -1,4 +1,4 @@
-/* DESK://trade — neon green on near-black, monospace headers, rounded cards */
+/* BANANA://trade — BananaPatterns yellow on near-black (distinct from green DESK/LONA) */
 
 :root {
   color-scheme: dark;
@@ -10,11 +10,11 @@
   --ink: #d6e2ee;
   --dim: #7b8ea1;
   --faint: #4a5c6d;
-  --acc: #2de0a5;
+  --acc: #F5C518;
   --acc2: #31a8ff;
   --warn: #f0a02a;
   --bad: #e8544a;
-  --pos: #2de0a5;
+  --pos: #F5C518;
   --neg: #e8544a;
   --r: 10px;
   --tap: 44px;
@@ -27,7 +27,7 @@
   --muted: var(--dim);
   --text: var(--ink);
   --bright: #e8eef6;
-  --green: var(--acc);
+  --green: var(--acc); /* banana yellow — not DESK lime */
   --red: var(--bad);
   --amber: var(--warn);
   --blue: var(--acc2);
@@ -139,14 +139,62 @@ header.top {
   font-weight: 700;
   letter-spacing: 0.08em;
   font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1;
+  background: rgba(240, 200, 42, 0.14);
+  border: 1px solid rgba(240, 200, 42, 0.45);
+  box-shadow: 0 0 10px rgba(240, 200, 42, 0.15);
+  flex-shrink: 0;
 }
 .logo i {
   color: var(--acc);
   font-style: normal;
+  text-shadow: 0 0 14px rgba(245, 197, 24, 0.55);
 }
 .logo b {
   color: var(--faint);
   font-weight: 500;
+}
+.host-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: #FFE566;
+  border: 1px solid rgba(245, 197, 24, 0.45);
+  background: rgba(245, 197, 24, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  vertical-align: middle;
+  max-width: 100%;
+}
+.host-badge .host-name {
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  color: #F5C518;
+}
+.host-badge .host-credit {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--dim);
+  text-transform: none;
 }
 
 .mode-pills {
@@ -180,14 +228,14 @@ header.top {
 }
 .mode-pill.live.on {
   color: var(--acc);
-  border-color: rgba(45, 224, 165, 0.45);
-  background: rgba(45, 224, 165, 0.1);
+  border-color: rgba(245, 197, 24, 0.45);
+  background: rgba(245, 197, 24, 0.1);
 }
 
 .btn-next {
   appearance: none;
-  border: 1px solid rgba(45, 224, 165, 0.45);
-  background: rgba(45, 224, 165, 0.12);
+  border: 1px solid rgba(245, 197, 24, 0.45);
+  background: rgba(245, 197, 24, 0.12);
   color: var(--acc);
   font: 600 11px/1 var(--sans);
   letter-spacing: 0.06em;
@@ -200,7 +248,7 @@ header.top {
 }
 .btn-next:active {
   transform: scale(0.98);
-  background: rgba(45, 224, 165, 0.2);
+  background: rgba(245, 197, 24, 0.2);
 }
 
 .stats {
@@ -253,9 +301,9 @@ nav.desktop-nav a:hover {
   text-decoration: none;
 }
 nav.desktop-nav a.active {
-  background: rgba(45, 224, 165, 0.12);
+  background: rgba(245, 197, 24, 0.12);
   color: var(--acc);
-  border: 1px solid rgba(45, 224, 165, 0.3);
+  border: 1px solid rgba(245, 197, 24, 0.3);
 }
 
 .disclaimer-row {
@@ -361,9 +409,9 @@ nav.bottom .ico {
   letter-spacing: 0.04em;
 }
 .more-sheet a.active {
-  background: rgba(45, 224, 165, 0.12);
+  background: rgba(245, 197, 24, 0.12);
   color: var(--acc);
-  border-color: rgba(45, 224, 165, 0.35);
+  border-color: rgba(245, 197, 24, 0.35);
 }
 
 /* ---- Panels / tables / buttons ---- */
@@ -440,18 +488,18 @@ nav.bottom .ico {
 }
 .btn.primary,
 .desk-btn-primary {
-  background: rgba(45, 224, 165, 0.16);
-  border-color: rgba(45, 224, 165, 0.4);
+  background: rgba(245, 197, 24, 0.16);
+  border-color: rgba(245, 197, 24, 0.4);
   color: var(--bright);
 }
 .btn.primary:hover:not(:disabled),
 .desk-btn-primary:hover:not(:disabled) {
-  background: rgba(45, 224, 165, 0.28);
+  background: rgba(245, 197, 24, 0.28);
 }
 .btn.live,
 .btn.cta {
   background: var(--acc);
-  color: #04110c;
+  color: #1a1400;
   border-color: var(--acc);
   width: 100%;
   font-size: 15px;
@@ -471,7 +519,7 @@ nav.bottom .ico {
   color: var(--ink);
 }
 .desk-btn-buy {
-  background: rgba(45, 224, 165, 0.12);
+  background: rgba(245, 197, 24, 0.12);
   border-color: var(--acc);
   color: var(--acc);
 }
@@ -653,14 +701,14 @@ h1.page-title {
   border: 1px solid;
 }
 .msg.ok {
-  border-color: rgba(45, 224, 165, 0.4);
+  border-color: rgba(245, 197, 24, 0.4);
   color: var(--pos);
 }
 .msg.err {
   border-color: rgba(232, 84, 74, 0.4);
   color: var(--neg);
 }
-.tone-green { background: rgba(45, 224, 165, 0.05); }
+.tone-green { background: rgba(245, 197, 24, 0.07); } /* banana yellow panel tint */
 .tone-red { background: rgba(232, 84, 74, 0.05); }
 .tone-amber { border-color: rgba(240, 160, 42, 0.35); }
 .banner {
@@ -685,7 +733,7 @@ h1.page-title {
   font-weight: 700;
   border: 1px solid var(--line2);
 }
-.pill.pos { color: var(--pos); background: rgba(45, 224, 165, 0.08); }
+.pill.pos { color: var(--pos); background: rgba(245, 197, 24, 0.08); }
 .pill.warn { color: var(--warn); background: rgba(240, 160, 42, 0.08); }
 .pill.neg { color: var(--neg); background: rgba(232, 84, 74, 0.08); }
 
@@ -820,7 +868,7 @@ canvas.chart {
   color: var(--dim);
 }
 .side button.buy.on {
-  background: rgba(45, 224, 165, 0.12);
+  background: rgba(245, 197, 24, 0.12);
   border-color: var(--acc);
   color: var(--acc);
 }
@@ -864,7 +912,7 @@ canvas.chart {
   color: var(--dim);
 }
 .seg button.on {
-  background: rgba(45, 224, 165, 0.12);
+  background: rgba(245, 197, 24, 0.12);
   color: var(--acc);
 }
 
@@ -887,7 +935,7 @@ canvas.chart {
 .size-toggle button.on {
   border-color: var(--acc);
   color: var(--acc);
-  background: rgba(45, 224, 165, 0.1);
+  background: rgba(245, 197, 24, 0.1);
 }
 
 .slider-wrap { margin: 4px 0 12px; }
@@ -992,7 +1040,7 @@ canvas.chart {
 }
 .nm-sheet .nm-action.READY {
   color: var(--pos);
-  border-color: rgba(45, 224, 165, 0.45);
+  border-color: rgba(245, 197, 24, 0.45);
 }
 .nm-sheet .nm-action.REASSESS {
   color: var(--bad);

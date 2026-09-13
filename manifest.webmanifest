@@ -1,7 +1,7 @@
 {
-  "name": "DESK://trade",
-  "short_name": "DESK",
-  "description": "Karl Smith's private NSE paper-trading desk (VCP / Blue sky). Not financial advice.",
+  "name": "Banana",
+  "short_name": "Banana",
+  "description": "Banana paper desk for BananaPatterns — Karl Smith's private NSE paper-trading blotter (VCP / Blue sky). Not financial advice.",
   "start_url": "./index.html",
   "scope": "./",
   "id": "./",
