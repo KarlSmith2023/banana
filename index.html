@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05080b" />
+  <meta name="description" content="Karl Smith's private NSE paper-trading desk (VCP / Blue sky). Not financial advice." />
+  <meta name="application-name" content="DESK" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DESK" />
+  <title>DESK :: trade</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="desk-root">
+    <header class="top safe-top">
+      <div class="top-row">
+        <div class="brand-block">
+          <div class="logo"><i>DESK</i><b>://trade</b></div>
+          <div class="mode-pills" id="mode-pills">
+            <span class="mode-pill paper on" id="pill-paper">PAPER</span>
+            <span class="mode-pill live locked" id="pill-live" title="Live hard-locked">LIVE 🔒</span>
+          </div>
+        </div>
+        <button type="button" class="btn-next" id="btn-next-move" title="Next playbook move">Next move</button>
+      </div>
+      <div class="stats" id="header-stats">
+        <div class="stat"><div class="k">Date</div><div class="v" id="stat-date">—</div></div>
+        <div class="stat"><div class="k">Names</div><div class="v" id="stat-names">—</div></div>
+        <div class="stat"><div class="k">Actionable</div><div class="v" id="stat-actionable">—</div></div>
+        <div class="stat"><div class="k">Intent</div><div class="v" id="stat-intent">—</div></div>
+      </div>
+      <nav class="desktop-nav" id="desktop-nav" aria-label="Desk"></nav>
+      <div class="disclaimer-row">
+        Complements BananaPatterns playbook research · Not financial advice · No official BananaPatterns API
+      </div>
+    </header>
+
+    <div class="install-banner" id="install-banner">
+      <span>Add Desk to Home Screen for a standalone paper blotter.</span>
+      <button type="button" class="btn primary sm" id="install-btn">Install</button>
+    </div>
+
+    <main class="view panel" id="view"></main>
+
+    <footer class="desk-foot">
+      Desk paper trading only · Not financial advice · Complements research from bananapatterns.com
+      (no official API)
+    </footer>
+
+    <nav class="bottom safe-bottom" id="bottom-tabs" aria-label="Primary"></nav>
+  </div>
+
+  <div class="nm-modal" id="nm-modal" aria-hidden="true">
+    <div class="nm-sheet" role="dialog" aria-labelledby="nm-title">
+      <span class="nm-action" id="nm-action">…</span>
+      <h2 id="nm-title">Next move</h2>
+      <div class="nm-body" id="nm-body">Loading…</div>
+      <div class="nm-meta" id="nm-meta"></div>
+      <button type="button" class="btn secondary nm-close" id="nm-close">Close</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
