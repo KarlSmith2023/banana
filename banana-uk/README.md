@@ -33,7 +33,7 @@ python3 -m http.server 8765 --directory .
 OANDA practice from the **phone / GitHub Pages** hits CORS, so those clients stay on seed marks. On the PC, run the unofficial TradingView quote proxy (same box as the static PWA):
 
 ```bash
-cd banana-uk          # or C:\\Users\\karls\\Projects\\banana-uk
+cd banana-uk          # or C:\Users\karls\Projects\banana-uk
 npm i                 # installs @mathieuc/tradingview; node_modules is gitignored
 npm run quotes        # node tv-quote-proxy.mjs → http://127.0.0.1:8791
 # Playbook → Quotes: proxy URL http://127.0.0.1:8791 (saved in localStorage)
